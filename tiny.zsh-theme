@@ -1,3 +1,6 @@
+GIT_PROMPT_BRANCH_NAME_MAX_LENGTH=20
+GIT_PROMPT_BRANCH_NAME_TRUNCATION_FILLER=..
+
 PROMPT='%{$fg[magenta]%}$ %{$reset_color%}'
 
 git_untracked_count() {
@@ -40,9 +43,23 @@ git_behind_ahead_count() {
 }
 
 git_branch() {
-  branch=`echo $(git branch 2>/dev/null | grep "^* " | cut -d' ' -f 2)`
-  if ! [ $branch ]; then return; fi
-  echo "%{$fg[magenta]%}$branch"
+  branch_name=`echo $(git branch 2>/dev/null | grep "^* " | cut -d' ' -f 2)`
+  if ! [ $branch_name ]; then return; fi
+
+  len=${#branch_name}
+  max=$GIT_PROMPT_BRANCH_NAME_MAX_LENGTH
+  if [ $len -gt $max ]; then
+    filler=$GIT_PROMPT_BRANCH_NAME_TRUNCATION_FILLER
+    filler_len=${#GIT_PROMPT_BRANCH_NAME_TRUNCATION_FILLER}
+    remaining_len=$(expr $max - $filler_len)
+    prefix_len=$(expr $remaining_len / 2)
+    prefix=${branch_name:0:$prefix_len}
+    suffix_len=$(expr $(expr $remaining_len + 1) / 2)
+    suffix_start=$(expr $len - $suffix_len)
+    suffix=${branch_name:$suffix_start:$suffix_len}
+    branch_name=`echo $(echo ${prefix}${filler}${suffix})`
+  fi
+  echo "%{$fg[magenta]%}$branch_name"
 }
 
 RPROMPT='$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)$(git_branch)%{$reset_color%}'
