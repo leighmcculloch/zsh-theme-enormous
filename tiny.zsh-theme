@@ -16,7 +16,7 @@ git_modified_count() {
 }
 
 git_index_count() {
-  count=`echo $(git status --porcelain 2>/dev/null | grep "^[AMD]." | wc -l)`
+  count=`echo $(git status --porcelain 2>/dev/null | grep "^[AMRD]." | wc -l)`
   if [ $count -eq 0 ]; then return; fi
   echo "%{$fg_no_bold[green]%}S %{$fg_bold[green]%}$count %{$reset_color%}"
 }
