@@ -1,8 +1,6 @@
 GIT_PROMPT_BRANCH_NAME_MAX_LENGTH=20
 GIT_PROMPT_BRANCH_NAME_TRUNCATION_FILLER=..
 
-PROMPT='%{$fg[magenta]%}$ %{$reset_color%}'
-
 git_untracked_count() {
   count=`echo $(git status --porcelain 2>/dev/null | grep "^??" | wc -l)`
   if [ $count -eq 0 ]; then return; fi
@@ -62,4 +60,5 @@ git_branch() {
   echo "%{$fg[magenta]%}$branch_name"
 }
 
+PROMPT='%{$fg[magenta]%}$ %{$reset_color%}'
 RPROMPT='$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)$(git_branch)%{$reset_color%}'
