@@ -37,7 +37,7 @@ git_behind_ahead_count() {
   echo "$behind$ahead %{$reset_color%}"
 }
 
-GIT_BRANCH_MAX_LENGTH=20
+GIT_BRANCH_MAX_LENGTH=15
 
 git_branch() {
   branch_name=`echo $(git branch 2>/dev/null | grep "^* " | cut -d' ' -f 2)`
@@ -46,6 +46,17 @@ git_branch() {
   echo "%{$fg[magenta]%}$branch_name"
 }
 
+CURRENT_DIRECTORY_MAX_LENGTH=10
+
+current_directory() {
+  dir=$PWD
+  if [ $dir = $HOME ]; then
+    dir='~'
+  fi
+  dir=${dir##*/}
+  dir=$(truncate_string $dir $CURRENT_DIRECTORY_MAX_LENGTH)
+  echo "%{$fg[cyan]%}$dir"
+}
 
 TRUNCATION_STRING_MAX_LENGTH=20
 TRUNCATION_STRING_FILLER=..
@@ -69,4 +80,4 @@ truncate_string() {
 }
 
 PROMPT='%{$fg[magenta]%}$ %{$reset_color%}'
-RPROMPT='$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)$(git_branch)%{$reset_color%}'
+RPROMPT='$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)$(git_branch) $(current_directory)%{$reset_color%}'
