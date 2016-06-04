@@ -46,14 +46,10 @@ git_branch() {
   echo "%{$fg[magenta]%}$branch_name "
 }
 
-CURRENT_DIRECTORY_MAX_LENGTH=30
+CURRENT_DIRECTORY_MAX_LENGTH=50
 
 current_directory() {
-  dir=$PWD
-  if [ $dir = $HOME ]; then
-    dir='~'
-  fi
-  dir=${dir##*/}
+  dir=${PWD/$HOME/\~}
   dir=$(truncate_string $dir $CURRENT_DIRECTORY_MAX_LENGTH)
   echo "%{$fg[cyan]%}$dir "
 }
