@@ -51,7 +51,15 @@ CURRENT_DIRECTORY_MAX_LENGTH=50
 current_directory() {
   dir=${PWD/$HOME/\~}
   dir=$(truncate_string $dir $CURRENT_DIRECTORY_MAX_LENGTH)
-  echo "%{$fg[cyan]%}$dir "
+  echo "%{$fg[green]%}$dir "
+}
+
+current_user() {
+  echo "%{$fg[cyan]%}$USER%{$reset_color%}"
+}
+
+current_hostname() {
+  echo "%{$fg[cyan]%}$(hostname)%{$reset_color%}"
 }
 
 TRUNCATION_STRING_MAX_LENGTH=20
@@ -77,7 +85,7 @@ truncate_string() {
 
 precmd() {
   print "";
-  print -rP "$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)%{$reset_color%}"
+  print -rP "$(current_user)@$(current_hostname):$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)%{$reset_color%}"
 }
 
 PROMPT='%{$reset_color%}$ '
