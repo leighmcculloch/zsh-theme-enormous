@@ -46,7 +46,7 @@ git_branch() {
   echo "%{$fg[magenta]%}$branch_name "
 }
 
-CURRENT_DIRECTORY_MAX_LENGTH=50
+CURRENT_DIRECTORY_MAX_LENGTH=35
 
 current_directory() {
   dir=${PWD/$HOME/\~}
@@ -54,8 +54,12 @@ current_directory() {
   echo "%{$fg[green]%}$dir "
 }
 
+CURRENT_USER_MAX_LENGTH=5
+
 current_user() {
-  echo "%{$fg[cyan]%}$USER%{$reset_color%}"
+  user=$USER
+  user=$(truncate_string $user $CURRENT_USER_MAX_LENGTH)
+  echo "%{$fg[cyan]%}$user%{$reset_color%}"
 }
 
 current_hostname() {
