@@ -46,7 +46,7 @@ git_branch() {
   echo "%{$fg[magenta]%}$branch_name "
 }
 
-CURRENT_DIRECTORY_MAX_LENGTH=20
+CURRENT_DIRECTORY_MAX_LENGTH=90
 
 current_directory() {
   dir=${PWD/$HOME/\~}
