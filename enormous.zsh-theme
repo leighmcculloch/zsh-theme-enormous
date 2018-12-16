@@ -17,21 +17,21 @@ git_index_count() {
 }
 
 git_behind_ahead_count() {
-  branch_info=`echo $(git branch -v 2>/dev/null | grep "^*")`
+  branch_info=$(git --no-pager branch '--format=%(upstream:track)')
 
-  behind_count=`echo $(echo $branch_info | grep -o "behind \d\d*" | grep -o "\d\d*")`
-  ahead_count=`echo $(echo $branch_info | grep -o "ahead \d\d*" | grep -o "\d\d*")`
+  behind_count=$(echo $branch_info | grep -o 'behind [0-9]\+' | grep -o '[0-9]\+')
+  ahead_count=$(echo $branch_info | grep -o 'ahead [0-9]\+' | grep -o '[0-9]\+')
 
   if ! [ $behind_count ] && ! [ $ahead_count ]; then return; fi
 
   behind=""
-  if [ $behind_count ]; then
-    behind=$(echo "%{$fg_bold[white]%}↓$behind_count")
+  if [ ! -z $behind_count ] && [ $behind_count -gt 0 ]; then
+    behind="%{$fg_bold[white]%}↓$behind_count"
   fi
 
   ahead=""
-  if [ $ahead_count ]; then
-    ahead=$(echo "%{$fg_bold[white]%}↑$ahead_count")
+  if [ ! -z $ahead_count ] && [ $ahead_count -gt 0 ]; then
+    ahead="%{$fg_bold[white]%}↑$ahead_count"
   fi
 
   echo "$behind$ahead %{$reset_color%}"
