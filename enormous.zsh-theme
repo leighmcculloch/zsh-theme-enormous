@@ -1,17 +1,17 @@
 git_untracked_count() {
-  count=`echo $(git status --porcelain 2>/dev/null | grep "^??" | wc -l)`
+  count=$(git status --porcelain 2>/dev/null | grep "^??" | wc -l)
   if [ $count -eq 0 ]; then return; fi
   echo "%{$fg_no_bold[yellow]%}? %{$fg_bold[yellow]%}$count %{$reset_color%}"
 }
 
 git_modified_count() {
-  count=`echo $(git status --porcelain 2>/dev/null | grep "^.[MD]" | wc -l)`
+  count=$(git status --porcelain 2>/dev/null | grep "^.[MD]" | wc -l)
   if [ $count -eq 0 ]; then return; fi
   echo "%{$fg_no_bold[red]%}M %{$fg_bold[red]%}$count %{$reset_color%}"
 }
 
 git_index_count() {
-  count=`echo $(git status --porcelain 2>/dev/null | grep "^[AMRD]." | wc -l)`
+  count=$(git status --porcelain 2>/dev/null | grep "^[AMRD]." | wc -l)
   if [ $count -eq 0 ]; then return; fi
   echo "%{$fg_no_bold[green]%}S %{$fg_bold[green]%}$count %{$reset_color%}"
 }
@@ -40,7 +40,7 @@ git_behind_ahead_count() {
 GIT_BRANCH_MAX_LENGTH=20
 
 git_branch() {
-  branch_name=`echo $(git branch 2>/dev/null | grep "^* " | cut -d' ' -f 2)`
+  branch_name=$(git branch 2>/dev/null | grep "^* " | cut -d' ' -f 2)
   if ! [ $branch_name ]; then return; fi
   branch_name=$(truncate_string $branch_name $GIT_BRANCH_MAX_LENGTH)
   echo "%{$fg[magenta]%}$branch_name "
