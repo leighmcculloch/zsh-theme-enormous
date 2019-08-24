@@ -57,9 +57,7 @@ current_directory() {
 CURRENT_USER_MAX_LENGTH=5
 
 current_user() {
-  user=$USER
-  user=$(truncate_string $user $CURRENT_USER_MAX_LENGTH)
-  echo "%{$fg[cyan]%}$user%{$reset_color%}"
+  echo "%{$fg[cyan]%}%n%{$reset_color%}"
 }
 
 current_hostname() {
