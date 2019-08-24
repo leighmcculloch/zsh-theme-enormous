@@ -17,7 +17,7 @@ git_index_count() {
 }
 
 git_behind_ahead_count() {
-  branch_info=$(git --no-pager branch '--format=%(upstream:track)' 2>/dev/null)
+  branch_info=$(git --no-pager branch '--format=%(if)%(HEAD)%(then)%(upstream:track)%(end)' 2>/dev/null)
 
   behind_count=$(echo $branch_info | grep -o 'behind [0-9]\+' | grep -o '[0-9]\+')
   ahead_count=$(echo $branch_info | grep -o 'ahead [0-9]\+' | grep -o '[0-9]\+')
