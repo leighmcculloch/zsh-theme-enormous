@@ -44,8 +44,7 @@ git_branch() {
 }
 
 current_directory() {
-  dir=${PWD/$HOME/\~}
-  echo "%{$fg[green]%}$dir "
+  echo "%{$fg[green]%}%~ "
 }
 
 PROMPT='
