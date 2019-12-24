@@ -48,5 +48,5 @@ current_directory() {
 }
 
 PROMPT='
-$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)%{$reset_color%}
-$ '
+$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)
+%{$fg[white]%}ΙΧΘΥΣ %{$reset_color%}'
