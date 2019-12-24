@@ -58,7 +58,7 @@ current_hostname() {
 
 precmd() {
   print "";
-  print -rP "$(current_user)@$(current_hostname):$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)%{$reset_color%}"
+  print -rP "$(current_hostname):$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)%{$reset_color%}"
 }
 
 PROMPT='%{$reset_color%}$ '
