@@ -37,24 +37,16 @@ git_behind_ahead_count() {
   echo "$behind$ahead %{$reset_color%}"
 }
 
-GIT_BRANCH_MAX_LENGTH=20
-
 git_branch() {
   branch_name=$(git branch 2>/dev/null | grep "^* " | cut -d' ' -f 2)
   if ! [ $branch_name ]; then return; fi
-  branch_name=$(truncate_string $branch_name $GIT_BRANCH_MAX_LENGTH)
   echo "%{$fg[magenta]%}$branch_name "
 }
 
-CURRENT_DIRECTORY_MAX_LENGTH=90
-
 current_directory() {
   dir=${PWD/$HOME/\~}
-  dir=$(truncate_string $dir $CURRENT_DIRECTORY_MAX_LENGTH)
   echo "%{$fg[green]%}$dir "
 }
-
-CURRENT_USER_MAX_LENGTH=5
 
 current_user() {
   echo "%{$fg[cyan]%}%n%{$reset_color%}"
@@ -62,27 +54,6 @@ current_user() {
 
 current_hostname() {
   echo "%{$fg[cyan]%}$(hostname)%{$reset_color%}"
-}
-
-TRUNCATION_STRING_MAX_LENGTH=20
-TRUNCATION_STRING_FILLER=..
-
-truncate_string() {
-  string=$1
-  max_length=${2:=$TRUNCATION_STRING_MAX_LENGTH}
-  filler=${3:=$TRUNCATION_STRING_FILLER}
-  string_len=${#string}
-  if [ $string_len -gt $max_length ]; then
-    filler_len=${#GIT_PROMPT_BRANCH_NAME_TRUNCATION_FILLER}
-    remaining_len=$(expr $max_length - $filler_len)
-    prefix_len=$(expr $remaining_len / 2)
-    prefix=${string:0:$prefix_len}
-    suffix_len=$(expr $(expr $remaining_len + 1) / 2)
-    suffix_start=$(expr $string_len - $suffix_len)
-    suffix=${string:$suffix_start:$suffix_len}
-    string=`echo $(echo ${prefix}${filler}${suffix})`
-  fi
-  echo "$string"
 }
 
 precmd() {
