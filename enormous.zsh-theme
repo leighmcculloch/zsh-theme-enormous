@@ -48,17 +48,6 @@ current_directory() {
   echo "%{$fg[green]%}$dir "
 }
 
-current_user() {
-  echo "%{$fg[cyan]%}%n%{$reset_color%}"
-}
-
-current_hostname() {
-  echo "%{$fg[cyan]%}$(hostname)%{$reset_color%}"
-}
-
-precmd() {
-  print "";
-  print -rP "$(current_hostname):$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)%{$reset_color%}"
-}
-
-PROMPT='%{$reset_color%}$ '
+PROMPT='
+$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)%{$reset_color%}
+$ '
