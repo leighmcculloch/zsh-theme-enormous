@@ -34,15 +34,15 @@ git_behind_ahead_count() {
 
   behind=""
   if [ ! -z $behind_count ] && [ $behind_count -gt 0 ]; then
-    behind="%{$fg_bold[white]%}↓$behind_count"
+    behind="↓$behind_count"
   fi
 
   ahead=""
   if [ ! -z $ahead_count ] && [ $ahead_count -gt 0 ]; then
-    ahead="%{$fg_bold[white]%}↑$ahead_count"
+    ahead="↑$ahead_count"
   fi
 
-  echo "$behind$ahead %{$reset_color%}"
+  echo "%{$fg_bold[cyan]%}$behind$ahead %{$reset_color%}"
 }
 
 git_branch() {
@@ -56,5 +56,5 @@ current_directory() {
 }
 
 PROMPT='
-$(current_directory)$(git_branch)$(git_status_count)$(git_behind_ahead_count)
+$(current_directory)$(git_branch)$(git_behind_ahead_count)$(git_status_count)
 %{$fg[white]%}ΙΧΘΥΣ %{$reset_color%}'
