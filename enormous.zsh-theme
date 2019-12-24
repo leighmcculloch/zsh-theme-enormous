@@ -1,19 +1,27 @@
 git_untracked_count() {
-  count=$(git status --porcelain 2>/dev/null | grep "^??" | wc -l)
+  local stat="$1"
+  local count=$(echo $stat | grep "^??" | wc -l)
   if [ $count -eq 0 ]; then return; fi
   echo "%{$fg_no_bold[yellow]%}? %{$fg_bold[yellow]%}$count %{$reset_color%}"
 }
 
 git_modified_count() {
-  count=$(git status --porcelain 2>/dev/null | grep "^.[MD]" | wc -l)
+  local stat="$1"
+  local count=$(echo $stat | grep "^.[MD]" | wc -l)
   if [ $count -eq 0 ]; then return; fi
   echo "%{$fg_no_bold[red]%}M %{$fg_bold[red]%}$count %{$reset_color%}"
 }
 
 git_index_count() {
-  count=$(git status --porcelain 2>/dev/null | grep "^[AMRD]." | wc -l)
+  local stat="$1"
+  local count=$(echo $stat | grep "^[AMRD]." | wc -l)
   if [ $count -eq 0 ]; then return; fi
   echo "%{$fg_no_bold[green]%}S %{$fg_bold[green]%}$count %{$reset_color%}"
+}
+
+git_status_count() {
+  local stat=$(git status --porcelain 2>/dev/null)
+  echo "$(git_untracked_count $stat)$(git_modified_count $stat)$(git_index_count $stat)"
 }
 
 git_behind_ahead_count() {
@@ -48,5 +56,5 @@ current_directory() {
 }
 
 PROMPT='
-$(current_directory)$(git_branch)$(git_untracked_count)$(git_modified_count)$(git_index_count)$(git_behind_ahead_count)
+$(current_directory)$(git_branch)$(git_status_count)$(git_behind_ahead_count)
 %{$fg[white]%}ΙΧΘΥΣ %{$reset_color%}'
