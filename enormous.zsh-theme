@@ -55,6 +55,13 @@ current_directory() {
   echo "%{$fg[green]%}%~ "
 }
 
+exit_code() {
+  code=$?
+  if [ $code -eq 0 ]; then return; fi
+  # A zero-width space is added to the end to ensure the new line is not trimmed
+  echo "❌ %{$fg[red]%}exit code $code\n​"
+}
+
 PROMPT='
-$(current_directory)$(git_branch)$(git_behind_ahead_count)$(git_status_count)
+$(exit_code)$(current_directory)$(git_branch)$(git_behind_ahead_count)$(git_status_count)
 %{$fg[white]%}ΙΧΘΥΣ %{$reset_color%}'
